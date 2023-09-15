@@ -2,6 +2,39 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
+const skills = [
+  {
+    skill: "HTML+CSS",
+    level: "advanced",
+    color: "#2662EA",
+  },
+  {
+    skill: "JavaScript",
+    level: "advanced",
+    color: "#EFD81D",
+  },
+  {
+    skill: "Web Design",
+    level: "advanced",
+    color: "#C3DCAF",
+  },
+  {
+    skill: "Git and GitHub",
+    level: "intermediate",
+    color: "#E84F33",
+  },
+  {
+    skill: "React",
+    level: "advanced",
+    color: "#60DAFB",
+  },
+  {
+    skill: "Svelte",
+    level: "beginner",
+    color: "#FF3B00",
+  },
+];
+
 function App() {
   return (
     <div className="app">
@@ -27,22 +60,27 @@ function ProfileCard() {
           </div>
         </div>
         <div className="tags">
-          <ProfileTag text="HTML+CSS 💪" bgColor="blue" />
-          <ProfileTag text="JavaScript 💪" bgColor="yellow" />
-          <ProfileTag text="Web Design 💪" bgColor="lightgreen" />
-          <ProfileTag text="Git and GitHub 👍" bgColor="darkred" />
-          <ProfileTag text="React 💪❤" bgColor="lightblue" />
-          <ProfileTag text="Svelte 😔" bgColor="red" />
+          {skills.map((skill) => (
+            <Skill
+              skill={skill.skill}
+              level={skill.level}
+              color={skill.color}
+            ></Skill>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function ProfileTag(props) {
+function Skill({ skill, level, color }) {
   return (
-    <span className="tag" style={{ backgroundColor: props.bgColor }}>
-      <span className="tag-text">{props.text}</span>
+    <span className="tag" style={{ backgroundColor: color }}>
+      <span className="tag-text">
+        {skill} {level === "advanced" && "💪"}
+        {level === "intermediate" && "👍"}
+        {level === "beginner" && "👶"}
+      </span>
     </span>
   );
 }
