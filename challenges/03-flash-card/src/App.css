@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.flashcards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: minmax(200px, max-content);
+}
+
+.flashcard {
+  margin: 0.5rem;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e7e7e7;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.flashcard-active {
+  background-color: rgb(243 62 62);
+  color: #fff;
+}
