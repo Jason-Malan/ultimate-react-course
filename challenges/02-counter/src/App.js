@@ -11,54 +11,51 @@ export default function App() {
 
 function Counter() {
   const [step, setStep] = useState(1);
-  const [count, setCounter] = useState(1);
-
-  function handleStepPrevious() {
-    setStep((s) => s - 1);
-  }
-
-  function handleStepNext() {
-    setStep((s) => s + 1);
-  }
-
-  function handleCountPrevious() {
-    setCounter((c) => c - step);
-  }
-  function handleCountNext() {
-    setCounter((c) => c + step);
-  }
+  const [count, setCount] = useState(0);
 
   return (
     <div className="counter">
       <div className="step">
-        <button className="btn" onClick={handleStepPrevious}>
-          &minus;
-        </button>
-        <span>Step: {step}</span>
-        <button className="btn" onClick={handleStepNext}>
-          &#43;
-        </button>
+        <input
+          value={step}
+          onChange={(e) => setStep(+e.target.value)}
+          type="range"
+          min="0"
+          max="10"
+        />
+        <span style={{ marginLeft: "10px" }}>Step: {step}</span>
       </div>
 
       <div className="count">
-        <button className="btn" onClick={handleCountPrevious}>
+        <button className="btn" onClick={() => setCount((c) => c - step)}>
           &minus;
         </button>
-        <span>Count: {count}</span>
-        <button className="btn" onClick={handleCountNext}>
+        <input
+          value={count}
+          onChange={(e) => setCount(() => +e.target.value)}
+        />
+        <button className="btn" onClick={() => setCount((c) => c + step)}>
           &#43;
         </button>
       </div>
 
       <DateMessage count={count} />
+
+      {(step !== 1 || count !== 0) && (
+        <button
+          onClick={() => {
+            setStep(1);
+            setCount(0);
+          }}
+        >
+          Reset
+        </button>
+      )}
     </div>
   );
 }
 
 function DateMessage({ count }) {
-  const currentDate = new Date();
-  const [date, setDate] = useState(new Date());
-
   function AddDays(days) {
     var date = new Date();
     date.setDate(date.getDate() + days);
