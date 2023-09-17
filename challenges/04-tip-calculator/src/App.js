@@ -2,11 +2,11 @@ import "./App.css";
 import { useState } from "react";
 
 export default function App() {
-  const [bill, setBill] = useState(0);
+  const [bill, setBill] = useState("");
   const [tipPercentages, setTipPercentages] = useState([]);
 
   function handleReset() {
-    setBill(0);
+    setBill("");
     setTipPercentages((tips) => tips.map((t) => ({ ...t, tip: 0 })));
   }
 
@@ -34,8 +34,12 @@ export default function App() {
       >
         How did your friend like the service?
       </SelectPercentage>
-      <Output bill={bill} tips={tipPercentages}></Output>
-      <Reset onReset={handleReset}></Reset>
+      {bill > 0 && (
+        <>
+          <Output bill={bill} tips={tipPercentages}></Output>
+          <Reset onReset={handleReset}></Reset>
+        </>
+      )}
     </div>
   );
 }
