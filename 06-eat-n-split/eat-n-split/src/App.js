@@ -22,12 +22,14 @@ export default function App() {
 
   function handleSelectFriend(id) {
     setSelectedFriendId(selectedFriendId === id ? "" : id);
+    setAddFriendOpen(false);
   }
 
   function updateFriendBalance(id, balance) {
     setFriends((friends) =>
       friends.map((f) => (f.id === id ? { ...f, balance } : f))
     );
+    setSelectedFriendId("");
   }
 
   return (
@@ -71,8 +73,10 @@ function FriendList({ friends, onSelect, selectedFriendId }) {
 }
 
 function Friend({ friend, onSelect, selectedFriendId }) {
+  const isSelected = selectedFriendId === friend.id;
+
   return (
-    <li>
+    <li className={isSelected ? "selected" : ""}>
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
 
@@ -91,7 +95,7 @@ function Friend({ friend, onSelect, selectedFriendId }) {
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
 
       <Button onClick={() => onSelect(friend.id)}>
-        {friend.id === selectedFriendId ? "Close" : "Select"}
+        {isSelected ? "Close" : "Select"}
       </Button>
     </li>
   );
@@ -101,14 +105,13 @@ function FormAddFriend({ onAdd }) {
   const [name, setName] = useState("");
   const [img, setImg] = useState("");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    onAdd({ name: name, imgUrl: img });
+  }
+
   return (
-    <form
-      className="form-add-friend"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onAdd({ name: name, imgUrl: img });
-      }}
-    >
+    <form className="form-add-friend" onSubmit={(e) => handleSubmit}>
       <label>🤼 Friend</label>
       <input
         type="text"
@@ -155,7 +158,9 @@ function FormSplitBill({ friend, updateFriendBalance }) {
       <input
         type="text"
         value={userExpense}
-        onChange={(e) => setUserExpense(+e.target.value)}
+        onChange={(e) =>
+          setUserExpense(+e.target.value > bill ? userExpense : +e.target.value)
+        }
       />
 
       <label>🤼 {friend.name} expense</label>
