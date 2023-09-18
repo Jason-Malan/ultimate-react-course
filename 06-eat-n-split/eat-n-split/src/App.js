@@ -1,12 +1,35 @@
 import "./App.css";
+import { useState } from "react";
 
 export default function App() {
+  const [addFriendOpen, setAddFriendOpen] = useState(false);
+  const [friends, setFriends] = useState(initialFriends);
+  const [selectedFriend, setSelectedFriend] = useState("");
+
+  function AddFriend({ name, imgUrl }) {
+    setFriends((friends) => [
+      ...friends,
+      { id: new Date().getTime(), name, image: imgUrl, balance: 0 },
+    ]);
+    toggleAddFriendForm();
+  }
+
+  function toggleAddFriendForm() {
+    setAddFriendOpen((o) => !o);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendList />
-        <Button>Add friend</Button>
-        <FormAddFriend />
+        <FriendList
+          friends={friends}
+          onSelect={(id) => setSelectedFriend(id)}
+        />
+
+        {addFriendOpen && <FormAddFriend onAdd={AddFriend} />}
+        <Button onClick={toggleAddFriendForm}>
+          {addFriendOpen ? "Close" : "Add friend"}
+        </Button>
       </div>
 
       <FormSplitBill />
@@ -14,19 +37,17 @@ export default function App() {
   );
 }
 
-function FriendList() {
-  const friends = initialFriends;
-
+function FriendList({ friends, onSelect }) {
   return (
     <ul>
       {friends.map((f) => (
-        <Friend friend={f} key={f.id}></Friend>
+        <Friend friend={f} key={f.id} onSelect={onSelect}></Friend>
       ))}
     </ul>
   );
 }
 
-function Friend({ friend }) {
+function Friend({ friend, onSelect }) {
   return (
     <li>
       <img src={friend.image} alt={friend.name} />
@@ -46,19 +67,32 @@ function Friend({ friend }) {
 
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
 
-      <Button>Select</Button>
+      <Button onClick={() => onSelect(friend.id)}>Select</Button>
     </li>
   );
 }
 
-function FormAddFriend() {
-  return (
-    <form className="form-add-friend">
-      <label htmlFor="">🤼 Friend name</label>
-      <input type="text" />
+function FormAddFriend({ onAdd }) {
+  const [name, setName] = useState("");
+  const [img, setImg] = useState("");
 
-      <label htmlFor="">📸 Image URL</label>
-      <input type="text" />
+  return (
+    <form
+      className="form-add-friend"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onAdd({ name: name, imgUrl: img });
+      }}
+    >
+      <label>🤼 Friend</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <label>📸 Image URL</label>
+      <input type="text" value={img} onChange={(e) => setImg(e.target.value)} />
 
       <Button>Add</Button>
     </form>
@@ -90,8 +124,12 @@ function FormSplitBill() {
   );
 }
 
-function Button({ children }) {
-  return <button className="button">{children}</button>;
+function Button({ onClick, children }) {
+  return (
+    <button onClick={onClick} className="button">
+      {children}
+    </button>
+  );
 }
 
 const initialFriends = [

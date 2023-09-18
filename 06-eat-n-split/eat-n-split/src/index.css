@@ -20,6 +20,7 @@ html {
 body {
   height: 100vh;
   color: #495057;
+  background-color: #adb5bd;
   display: flex;
   align-items: center;
   justify-content: center;
