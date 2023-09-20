@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const containerStyle = {
   display: "flex",
@@ -10,10 +11,24 @@ const starContainerStyle = {
   display: "flex",
 };
 
+StarRating.propTypes = {
+  maxRating: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.string,
+  className: PropTypes.string,
+  messages: PropTypes.array,
+  defaultRating: PropTypes.number,
+  onSetRating: PropTypes.func,
+};
+
 export default function StarRating({
   maxRating = 5,
   color = "#fcc419",
   size = "1.5rem",
+  className = "",
+  messages = [],
+  defaultRating = 0,
+  onSetRating,
 }) {
   const textStyle = {
     lineHeight: "1",
@@ -22,15 +37,16 @@ export default function StarRating({
     fontSize: size,
   };
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
+    if (onSetRating) onSetRating(rating);
   }
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className={className}>
       <div style={starContainerStyle}>
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
@@ -44,7 +60,11 @@ export default function StarRating({
           />
         ))}
       </div>
-      <span style={textStyle}>{tempRating || rating || ""}</span>
+      <span style={textStyle}>
+        {messages.length === maxRating
+          ? messages[tempRating ? tempRating - 1 : rating - 1]
+          : tempRating || rating || ""}
+      </span>
     </div>
   );
 }
