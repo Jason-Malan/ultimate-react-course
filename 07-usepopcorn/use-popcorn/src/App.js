@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const OMBD_KEY = "6c60453e";
 const OMDB_URL = `http://www.omdbapi.com/?apikey=${OMBD_KEY}&`;
 const INTERSTELLAR_SEARCH = `${OMDB_URL}s=interstellar`;
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
 
-  fetch(INTERSTELLAR_SEARCH)
-    .then((res) => res.json())
-    .then((data) => console.log(data.Search));
+  useEffect(() => {
+    fetch(INTERSTELLAR_SEARCH)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
 
   return (
     <>
