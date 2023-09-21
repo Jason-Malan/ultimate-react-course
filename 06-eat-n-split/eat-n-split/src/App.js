@@ -51,6 +51,7 @@ export default function App() {
         <FormSplitBill
           friend={selectedFriend}
           updateFriendBalance={updateFriendBalance}
+          key={selectedFriend.id}
         />
       )}
     </div>
