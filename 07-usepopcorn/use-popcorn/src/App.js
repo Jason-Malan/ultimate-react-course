@@ -29,12 +29,16 @@ export default function App() {
   }
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchMovies() {
       try {
         setIsLoading(true);
         setError("");
 
-        const res = await fetch(`${OMDB_URL}s=${query}`);
+        const res = await fetch(`${OMDB_URL}s=${query}`, {
+          signal: controller.signal,
+        });
 
         if (!res.ok)
           throw new Error("Something went wrong with fetching the movies");
@@ -43,9 +47,11 @@ export default function App() {
         if (data.response === "False") throw new Error("Movie not found");
 
         setMovies(data.Search);
-      } catch (error) {
-        console.error(error.message);
-        setError(error.message);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          console.log(err.message);
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -57,7 +63,12 @@ export default function App() {
       return;
     }
 
+    handleCloseMovie();
     fetchMovies();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   return (
@@ -237,7 +248,24 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   useEffect(() => {
     if (isLoading) document.title = "Movie | Loading...";
     else document.title = `Movie | ${title}`;
+
+    return () => (document.title = "usePopcorn");
   }, [isLoading, title]);
+
+  useEffect(() => {
+    function callback(e) {
+      if (e.code === "Escape") {
+        onCloseMovie();
+        console.log("hey");
+      }
+    }
+
+    document.addEventListener("keydown", callback);
+
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
 
   return (
     <div className="details">
