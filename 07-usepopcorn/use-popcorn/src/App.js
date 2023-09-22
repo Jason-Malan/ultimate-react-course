@@ -4,16 +4,17 @@ const OMBD_KEY = "6c60453e";
 const OMDB_URL = `http://www.omdbapi.com/?apikey=${OMBD_KEY}&`;
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const query = "interstellar";
 
   useEffect(() => {
     async function fetchMovies() {
       try {
         setIsLoading(true);
+        setError("");
 
         const res = await fetch(`${OMDB_URL}s=${query}`);
 
@@ -21,26 +22,31 @@ export default function App() {
           throw new Error("Something went wrong with fetching the movies");
 
         const data = await res.json();
-        if (!data.response) throw new Error("Movie not found");
+        if (data.response === "False") throw new Error("Movie not found");
 
         setMovies(data.Search);
-
-        setIsLoading(false);
       } catch (error) {
-        setError(error);
+        console.error(error.message);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
     }
 
+    if (query.length < 2) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <NavBar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
@@ -84,9 +90,7 @@ function Logo() {
   );
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
-
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
@@ -101,7 +105,7 @@ function Search() {
 function NumResults({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>{movies.length}</strong> results
+      Found <strong>{movies?.length}</strong> results
     </p>
   );
 }
