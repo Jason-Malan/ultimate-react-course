@@ -7,10 +7,14 @@ const OMDB_URL = `http://www.omdbapi.com/?apikey=${OMBD_KEY}&`;
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() =>
+    JSON.parse(localStorage.getItem("watched"))
+  ); // must be pure function, no params
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -27,6 +31,10 @@ export default function App() {
   function handleDelete(id) {
     setWatched((movies) => movies.filter((m) => m.imdbID !== id));
   }
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     const controller = new AbortController();
