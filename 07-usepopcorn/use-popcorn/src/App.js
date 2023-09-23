@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import StarRating from "./StarRating";
 
 const OMBD_KEY = "6c60453e";
@@ -141,6 +141,25 @@ function Logo() {
 }
 
 function Search({ query, setQuery }) {
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    if (document.activeElement === inputEl.current) return;
+
+    inputEl.current.focus();
+
+    function onKeydown(e) {
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+        setQuery("");
+      }
+    }
+
+    document.addEventListener("keydown", onKeydown);
+
+    return () => document.removeEventListener("keydown", onKeydown);
+  }, [setQuery]);
+
   return (
     <input
       className="search"
@@ -148,6 +167,7 @@ function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
     />
   );
 }
