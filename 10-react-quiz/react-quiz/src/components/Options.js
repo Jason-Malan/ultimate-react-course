@@ -15,6 +15,7 @@ export default function Options({ question, dispatch, answer }) {
                 : "wrong"
               : ""
           }`}
+          disabled={hasAnswered}
           key={option}
         >
           {option}
