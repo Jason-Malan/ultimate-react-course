@@ -35,66 +35,6 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
-    },
-    {
-      "cityName": "Perth",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2023-10-01T13:35:59.186Z",
-      "notes": "",
-      "position": {
-        "lat": "56.81290751870022",
-        "lng": "-3.9550781250000004"
-      },
-      "id": 98443198
-    },
-    {
-      "cityName": "Clapham",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2023-10-01T13:38:51.456Z",
-      "notes": "",
-      "position": {
-        "lat": "54.16243396806781",
-        "lng": "-2.3730468750000004"
-      },
-      "id": 98443199
-    },
-    {
-      "cityName": "Newport",
-      "country": "Ireland",
-      "emoji": "🇮🇪",
-      "date": "2023-10-01T13:38:51.456Z",
-      "notes": "",
-      "position": {
-        "lat": "52.802761415419674",
-        "lng": "-8.085937500000002"
-      },
-      "id": 98443200
-    },
-    {
-      "cityName": "Mid Ulster",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2023-10-01T13:43:31.495Z",
-      "notes": "",
-      "position": {
-        "lat": "54.49556752187409",
-        "lng": "-6.943359375000001"
-      },
-      "id": 98443201
-    },
-    {
-      "cityName": "Greater London",
-      "country": "United Kingdom of Great Britain and Northern Ireland (the)",
-      "emoji": "🇬🇧",
-      "date": "2023-10-01T13:44:00.042Z",
-      "notes": "",
-      "position": {
-        "lat": "51.52241608253256",
-        "lng": "-0.087890625"
-      },
-      "id": 98443202
     }
   ]
 }
