@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { usePostContext, PostProvider } from "./PostContext";
+import { useMemo } from "react";
 
 function createRandomPost() {
   return {
@@ -12,12 +13,19 @@ function createRandomPost() {
 function App() {
   const [isFakeDark, setIsFakeDark] = useState(false);
 
-  // Whenever `isFakeDark` changes, we toggle the `fake-dark-mode` class on the HTML element (see in "Elements" dev tool).
   useEffect(
     function () {
       document.documentElement.classList.toggle("fake-dark-mode");
     },
     [isFakeDark]
+  );
+
+  const archiveOptions = useMemo(
+    () => ({
+      show: false,
+      title: `Post archive in addition to main posts`,
+    }),
+    []
   );
 
   return (
@@ -32,7 +40,7 @@ function App() {
       <PostProvider>
         <Header />
         <Main />
-        <Archive />
+        <Archive options={archiveOptions} />
         <Footer />
       </PostProvider>
     </section>
@@ -74,14 +82,14 @@ function Results() {
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
-function Main() {
+const Main = memo(function Main() {
   return (
     <main>
       <FormAddPost />
       <Posts />
     </main>
   );
-}
+});
 
 function Posts() {
   return (
@@ -137,7 +145,7 @@ function List() {
   );
 }
 
-function Archive() {
+function Archive({ options }) {
   const { onAddPost } = usePostContext();
 
   // Here we don't need the setter function. We're only using state to store these posts because the callback function passed into useState (which generates the posts) is only called once, on the initial render. So we use this trick as an optimization technique, because if we just used a regular variable, these posts would be re-created on every render. We could also move the posts outside the components, but I wanted to show you this trick 😉
@@ -146,11 +154,11 @@ function Archive() {
     Array.from({ length: 10000 }, () => createRandomPost())
   );
 
-  const [showArchive, setShowArchive] = useState(false);
+  const [showArchive, setShowArchive] = useState(options.show);
 
   return (
     <aside>
-      <h2>Post archive</h2>
+      <h2>{options.title}</h2>
       <button onClick={() => setShowArchive((s) => !s)}>
         {showArchive ? "Hide archive posts" : "Show archive posts"}
       </button>
