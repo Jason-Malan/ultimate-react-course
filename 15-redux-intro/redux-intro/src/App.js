@@ -5,7 +5,7 @@ import CreateCustomer from "./features/customers/CreateCustomer";
 import Customer from "./features/customers/Customer";
 
 function App() {
-  const fullName = useSelector((state) => state.customer.fullName);
+  const fullName = useSelector((state) => state.customer?.fullName);
 
   return (
     <div>
