@@ -1,12 +1,18 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
-const initialState = {
+const initialAccountState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 };
 
-function reducer(state = initialState, { type, payload }) {
+const initialCustomerState = {
+  firstName: "",
+  nationalID: "",
+  createdAt: "",
+};
+
+function accountReducer(state = initialAccountState, { type, payload }) {
   switch (type) {
     case "account/deposit":
       return { ...state, balance: state.balance + payload };
@@ -33,13 +39,39 @@ function reducer(state = initialState, { type, payload }) {
   }
 }
 
-const store = createStore(reducer);
+function customerReducer(state = initialCustomerState, { type, payload }) {
+  switch (type) {
+    case "customer/createCustomer":
+      return {
+        ...state,
+        firstName: payload.firstName,
+        nationalID: payload.nationalID,
+        createdAt: payload.createdAt,
+      };
+    case "customer/updateCustomerFirstName":
+      return {
+        ...state,
+        firstName: payload,
+      };
+    default:
+      return state;
+  }
+}
+
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
+
+const store = createStore(rootReducer);
 
 store.dispatch(deposit(500));
 store.dispatch(withdraw(300));
 store.dispatch(requestLoan(10000, "buy a car"));
 store.dispatch(payLoan());
+console.log(store.getState());
 
+store.dispatch(createCustomer("Jason", "JSA812"));
 console.log(store.getState());
 
 function deposit(amount) {
@@ -56,4 +88,22 @@ function requestLoan(amount, purpose) {
 
 function payLoan() {
   return { type: "account/payLoan" };
+}
+
+function createCustomer(firstName, nationalID) {
+  return {
+    type: "customer/createCustomer",
+    payload: {
+      firstName,
+      nationalID,
+      createdAt: new Date().toISOString(),
+    },
+  };
+}
+
+function updateCustomerFirstName(firstName) {
+  return {
+    type: "customer/updateCustomerFirstName",
+    payload: firstName,
+  };
 }
