@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Form, redirect } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -35,46 +37,59 @@ function CreateOrder() {
   const cart = fakeCart;
 
   return (
-    <div>
+    <Form method="POST">
       <h2>Ready to order? Let's go!</h2>
+      <div>
+        <label>First Name</label>
+        <input type="text" name="customer" required />
+      </div>
 
-      <form>
+      <div>
+        <label>Phone number</label>
         <div>
-          <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input type="tel" name="phone" required />
         </div>
+      </div>
 
+      <div>
+        <label>Address</label>
         <div>
-          <label>Phone number</label>
-          <div>
-            <input type="tel" name="phone" required />
-          </div>
+          <input type="text" name="address" required />
         </div>
+      </div>
 
-        <div>
-          <label>Address</label>
-          <div>
-            <input type="text" name="address" required />
-          </div>
-        </div>
+      <div>
+        <input
+          type="checkbox"
+          name="priority"
+          id="priority"
+          // value={withPriority}
+          // onChange={(e) => setWithPriority(e.target.checked)}
+        />
+        <label htmlFor="priority">Want to yo give your order priority?</label>
+      </div>
 
-        <div>
-          <input
-            type="checkbox"
-            name="priority"
-            id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
-          />
-          <label htmlFor="priority">Want to yo give your order priority?</label>
-        </div>
-
-        <div>
-          <button>Order now</button>
-        </div>
-      </form>
-    </div>
+      <div>
+        <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+        <button>Order now</button>
+      </div>
+    </Form>
   );
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  const order = {
+    ...data,
+    priority: data.priority === "on",
+    cart: JSON.parse(data.cart),
+  };
+
+  const newOrder = await createOrder(order);
+
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;
