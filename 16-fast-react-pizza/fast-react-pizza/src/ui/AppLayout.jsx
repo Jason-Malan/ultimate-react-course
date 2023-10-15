@@ -1,9 +1,9 @@
 import Header from './Header';
+import Loader from './Loader';
 import CartOverview from '../features/cart/CartOverview';
 import { Outlet, useNavigation } from 'react-router-dom';
-import Loader from './Loader';
 
-export default function AppLayout() {
+function AppLayout() {
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
 
@@ -13,7 +13,7 @@ export default function AppLayout() {
 
       <Header />
 
-      <div className="overflow-auto">
+      <div className="overflow-scroll">
         <main className="mx-auto max-w-3xl">
           <Outlet />
         </main>
@@ -23,3 +23,5 @@ export default function AppLayout() {
     </div>
   );
 }
+
+export default AppLayout;
