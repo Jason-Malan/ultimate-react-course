@@ -40,6 +40,8 @@ export const {
 
 export default cartSlice.reducer;
 
+export const getCart = (s) => s.cart.cart;
+
 export const getTotalCartPrice = (s) =>
   s.cart.cart.reduce((prev, pizza) => prev + pizza.totalPrice, 0);
 
