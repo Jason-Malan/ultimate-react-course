@@ -47,3 +47,6 @@ export const getTotalCartPrice = (s) =>
 
 export const getTotalCartQuantity = (s) =>
   s.cart.cart.reduce((prev, pizza) => prev + pizza.quantity, 0);
+
+export const getCurrentQuantityById = (id) => (s) =>
+  s.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
