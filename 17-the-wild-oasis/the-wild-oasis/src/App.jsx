@@ -1,17 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import GlobalStyles from "./styles/GlobalStyles";
+import Button from "./ui/Button";
 
 const H1 = styled.h1`
   font-size: 30px;
   font-weight: 600;
   background-color: yellow;
-`;
-
-const Button = styled.button`
-  padding: 0.8rem 1.2rem;
-  border-radius: 5px;
-  background-color: purple;
-  border: none;
 `;
 
 const StyledApp = styled.div`
@@ -21,10 +16,13 @@ const StyledApp = styled.div`
 
 export default function App() {
   return (
-    <StyledApp>
-      <H1>Hello world</H1>
-      <Button>Check in</Button>
-      <Button>Check out</Button>
-    </StyledApp>
+    <>
+      <GlobalStyles />
+      <StyledApp>
+        <H1>Hello world</H1>
+        <Button>Check in</Button>
+        <Button>Check out</Button>
+      </StyledApp>
+    </>
   );
 }
