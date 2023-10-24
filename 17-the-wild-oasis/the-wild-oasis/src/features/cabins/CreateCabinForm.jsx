@@ -82,7 +82,7 @@ function CreateCabinForm() {
           {...register("discount", {
             required: "This field is required",
             validate: (value) =>
-              getValues().regularPrice >= value ||
+              +getValues().regularPrice >= +value ||
               "Discount should be less than regular price",
           })}
         />
