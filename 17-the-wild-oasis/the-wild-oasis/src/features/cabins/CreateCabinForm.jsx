@@ -10,7 +10,7 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, setCabins }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEdit = !!editId;
 
@@ -33,10 +33,13 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   const { mutate: editCabin, isLoading: isEditing } = useMutation({
     mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("New cabin successfully created");
-      queryClient.invalidateQueries({ queryKey: ["cabins"] });
-      reset();
+      setCabins((cabins) =>
+        cabins.map((cabin) =>
+          cabin.id === editId ? { ...cabin, ...data } : cabin
+        )
+      );
     },
     onError: (err) => toast.error(err.message),
   });

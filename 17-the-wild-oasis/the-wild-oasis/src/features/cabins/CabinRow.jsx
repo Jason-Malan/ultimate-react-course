@@ -45,7 +45,7 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-function CabinRow({ cabin }) {
+function CabinRow({ cabin, setCabins }) {
   const [showForm, setShowForm] = useState(false);
 
   const {
@@ -87,7 +87,9 @@ function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {showForm && (
+        <CreateCabinForm cabinToEdit={cabin} setCabins={setCabins} />
+      )}
     </>
   );
 }
