@@ -42,9 +42,12 @@ function CabinTable() {
         <div></div>
       </Table.Header>
 
-      {cabins.map((cabin) => (
-        <CabinRow cabin={cabin} setCabins={setCabins} key={cabin.id} />
-      ))}
+      <Table.Body
+        data={cabins}
+        render={(cabin) => (
+          <CabinRow cabin={cabin} setCabins={setCabins} key={cabin.id} />
+        )}
+      />
     </Table>
   );
 }
