@@ -8,10 +8,22 @@ import {
   HiOutlineCog6Tooth,
 } from "react-icons/hi2";
 
+const Nav = styled.nav`
+  @media only screen and (max-width: 56.25em) {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+  }
+`;
+
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  @media only screen and (max-width: 56.25em) {
+    flex-direction: row;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -55,7 +67,7 @@ const StyledNavLink = styled(NavLink)`
 
 function MainNav() {
   return (
-    <nav>
+    <Nav>
       <NavList>
         <li>
           <StyledNavLink to="/dashboard">
@@ -87,7 +99,7 @@ function MainNav() {
           </StyledNavLink>
         </li>
       </NavList>
-    </nav>
+    </Nav>
   );
 }
 

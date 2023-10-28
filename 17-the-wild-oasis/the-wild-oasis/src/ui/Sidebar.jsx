@@ -12,6 +12,16 @@ const StyledHeader = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+
+  @media only screen and (max-width: 56.25em) {
+    border-right: none;
+    flex-direction: row;
+    grid-row: auto;
+    padding: 1.6rem 0.8rem;
+    padding-left: 2rem;
+    gap: 1.5rem;
+    overflow-x: auto;
+  }
 `;
 
 function Sidebar() {
