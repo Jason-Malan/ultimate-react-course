@@ -12,6 +12,7 @@ const StyledHeader = styled.aside`
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 3.2rem;
 
   @media only screen and (max-width: 56.25em) {

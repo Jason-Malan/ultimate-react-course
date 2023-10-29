@@ -13,6 +13,7 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     overflow-x: auto;
+    align-self: stretch;
   }
 `;
 
