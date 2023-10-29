@@ -9,6 +9,8 @@ import {
 } from "react-icons/hi2";
 
 const Nav = styled.nav`
+  width: 100%;
+
   @media only screen and (max-width: 56.25em) {
     display: flex;
     align-items: center;

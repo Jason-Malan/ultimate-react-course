@@ -1,29 +1,19 @@
 import { useEffect, useRef } from "react";
 
-export default function useOutsideClick(
-  handler,
-  listenCapturing = true,
-  timeout = null
-) {
+export default function useOutsideClick(handler, listenCapturing = true) {
   const ref = useRef();
 
   useEffect(() => {
-    const callWithTimeout = (callback) => {
-      setTimeout(() => {
-        callback();
-      }, timeout);
-    };
-
     function handleClick(e) {
       if (ref.current && !ref.current.contains(e.target)) {
-        timeout ? callWithTimeout(handler) : handler();
+        handler();
       }
     }
 
     document.addEventListener("click", handleClick, listenCapturing);
 
     return () => document.removeEventListener("click", handleClick);
-  }, [handler, listenCapturing, timeout]);
+  }, [handler, listenCapturing]);
 
   return ref;
 }
