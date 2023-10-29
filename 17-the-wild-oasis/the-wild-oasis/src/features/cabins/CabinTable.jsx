@@ -1,6 +1,5 @@
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
-import { useEffect, useState } from "react";
 import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
@@ -8,14 +7,8 @@ import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
 
 function CabinTable() {
-  const { isLoading, cabins: queryCabins, error } = useCabins();
+  const { isLoading, cabins, error } = useCabins();
   const [searchParams] = useSearchParams();
-
-  const [cabins, setCabins] = useState([]);
-
-  useEffect(() => {
-    setCabins(queryCabins ?? []);
-  }, [queryCabins]);
 
   if (isLoading) return <Spinner />;
 
@@ -61,9 +54,7 @@ function CabinTable() {
 
         <Table.Body
           data={filteredAndSortedCabins}
-          render={(cabin) => (
-            <CabinRow cabin={cabin} setCabins={setCabins} key={cabin.id} />
-          )}
+          render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>
     </Menus>

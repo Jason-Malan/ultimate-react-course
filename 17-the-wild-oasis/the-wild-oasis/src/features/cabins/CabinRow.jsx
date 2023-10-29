@@ -48,7 +48,7 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-function CabinRow({ cabin, setCabins }) {
+function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
@@ -98,7 +98,7 @@ function CabinRow({ cabin, setCabins }) {
             </Menus.List>
 
             <Modal.Window name="edit">
-              <CreateCabinForm cabinToEdit={cabin} setCabins={setCabins} />
+              <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
 
             <Modal.Window name="delete">

@@ -7,10 +7,14 @@ import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCabins } from "./useCabins";
 
-function CreateCabinForm({ cabinToEdit = {}, setCabins, onCloseModal }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
+  const { cabins } = useCabins();
+  const queryClient = useQueryClient();
   const isProcessing = isCreating || isEditing;
 
   const { id: editId, ...editValues } = cabinToEdit;
@@ -29,7 +33,8 @@ function CreateCabinForm({ cabinToEdit = {}, setCabins, onCloseModal }) {
         { newCabinData: { ...data, image }, id: editId },
         {
           onSuccess: () => {
-            setCabins((cabins) =>
+            queryClient.setQueryData(
+              ["cabins"],
               cabins.map((cabin) =>
                 cabin.id === editId ? { ...cabin, ...data } : cabin
               )
