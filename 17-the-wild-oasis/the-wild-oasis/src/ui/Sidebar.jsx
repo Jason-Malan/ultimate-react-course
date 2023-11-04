@@ -31,8 +31,6 @@ function Sidebar() {
     <StyledHeader>
       <Logo />
       <MainNav />
-
-      <Uploader />
     </StyledHeader>
   );
 }
