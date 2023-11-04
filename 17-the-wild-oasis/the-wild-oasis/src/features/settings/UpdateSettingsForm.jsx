@@ -8,9 +8,7 @@ import { useUpdateSetting } from "./useUpdateSetting";
 
 function UpdateSettingsForm() {
   const form = useRef();
-  console.log(form);
   const {
-    error,
     isLoading,
     settings: {
       minBookingLength,

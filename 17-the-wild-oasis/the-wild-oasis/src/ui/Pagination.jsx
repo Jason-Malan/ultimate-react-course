@@ -83,11 +83,11 @@ function Pagination({ count }) {
 
   return (
     <StyledPagination>
-      <p>
+      <P>
         Showing <span>{currentPage * PAGE_SIZE - PAGE_SIZE + 1}</span> to{" "}
         <span>{isLastPage ? count : currentPage * PAGE_SIZE}</span> of{" "}
         <span>{count}</span> results
-      </p>
+      </P>
 
       <Buttons>
         <PaginationButton onClick={previousPage} disabled={isPageOne}>
