@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useUser } from "./useUser";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 const StyledUserAvatar = styled.div`
   display: flex;

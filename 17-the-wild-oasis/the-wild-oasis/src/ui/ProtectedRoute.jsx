@@ -17,10 +17,10 @@ function ProtectedRoute({ children }) {
   const { isLoading, isAuthenticated } = useUser();
 
   useEffect(() => {
-    if (!isAuthenticated && !isLoading) navigate("/login");
+    if (!isLoading && !isAuthenticated) navigate("/login");
   }, [isAuthenticated, isLoading, navigate]);
 
-  if (isLoading)
+  if (isLoading || !isAuthenticated)
     return (
       <FullPage>
         <Spinner />
